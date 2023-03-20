@@ -1,0 +1,56 @@
+{
+  "name": "joinjobs-backend",
+  "main": "server.js",
+  "version": "1.1.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm start"
+  },
+  "description": "JoinJobs backend creacted by ITGalkowski",
+  "author": "Pawel Galkowski",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.6",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-validator": "^6.13.0",
+    "gravatar": "^1.8.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.11",
+    "nodemailer": "^6.7.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "react": "^16.14.0",
+    "request": "^2.88.0",
+    "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^2.0.13",
+    "typescript": "^5.0.2"
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pawel-Galkowski/apka.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pawel-Galkowski/apka/issues"
+  },
+  "homepage": "https://github.com/Pawel-Galkowski/apka#readme"
+}
