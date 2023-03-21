@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm start"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install"
   },
   "description": "JoinJobs backend creacted by ITGalkowski",
   "author": "Pawel Galkowski",
