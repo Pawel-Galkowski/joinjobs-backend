@@ -1,56 +1,56 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const FormSchema = new Schema({
   company: {
     type: String,
-    required: true,
+    required: true
   },
   nip: {
     type: String,
-    required: true,
+    required: true
   },
   admins: {
-    type: Array,
+    type: Array
   },
   formTable: [
     {
       creator: {
         type: Schema.Types.ObjectId,
-        ref: `users`,
+        ref: 'users'
       },
       questions: [
         {
-          type: Array,
-        },
+          type: Array
+        }
       ],
       responses: [
         {
           user: {
             type: Schema.Types.ObjectId,
-            ref: `users`,
+            ref: 'users'
           },
           answer: {
-            type: Object,
+            type: Object
           },
           file: {
-            type: String,
+            type: String
           },
           date: {
             type: Date,
-            default: Date.now,
-          },
-        },
+            default: Date.now
+          }
+        }
       ],
       body: {
-        type: Object,
+        type: Object
       },
       date: {
         type: Date,
-        default: Date.now,
-      },
-    },
-  ],
-});
+        default: Date.now
+      }
+    }
+  ]
+})
 
-module.exports = Form = mongoose.model('form', FormSchema);
+module.exports = mongoose.model('form', FormSchema)

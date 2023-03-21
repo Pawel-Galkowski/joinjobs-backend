@@ -1,11 +1,11 @@
-var education = require('./education');
-var experience = require('./experience');
-var isEmpty = require('./is-empty');
-var login = require('./login');
-var post = require('./post');
-var profile = require('./profile');
-var register = require('./register');
-var forms = require('./forms');
+const education = require('./education')
+const experience = require('./experience')
+const isEmpty = require('./is-empty').default
+const login = require('./login')
+const post = require('./post')
+const profile = require('./profile')
+const register = require('./register')
+const forms = require('./forms')
 
 module.exports = {
   isEmpty,
@@ -15,5 +15,5 @@ module.exports = {
   experience,
   education,
   post,
-  forms,
-};
+  forms
+}

@@ -1,19 +1,19 @@
-var Validator = require('validator');
-var { isEmpty } = require('./is-empty');
+const Validator = require('validator')
+const { isEmpty } = require('./is-empty').default
 
 module.exports = {
   validateFormInput: (data) => {
-    let errors = {};
+    const errors = {}
 
-    data.text = !isEmpty(data.text) ? data.text : '';
+    data.text = !isEmpty(data.text) ? data.text : ''
 
     if (Validator.isEmpty(data.text)) {
-      errors.text = 'Field is required';
+      errors.text = 'Field is required'
     }
 
     return {
       errors,
-      isValid: isEmpty(errors),
-    };
-  },
-};
+      isValid: isEmpty(errors)
+    }
+  }
+}

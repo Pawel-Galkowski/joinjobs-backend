@@ -47,10 +47,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pawel-Galkowski/apka.git"
+    "url": "git+https://github.com/Pawel-Galkowski/joinjobs-backend.git"
   },
   "bugs": {
-    "url": "https://github.com/Pawel-Galkowski/apka/issues"
+    "url": "https://github.com/Pawel-Galkowski/joinjobs-backend/issues"
   },
-  "homepage": "https://github.com/Pawel-Galkowski/apka#readme"
+  "homepage": "https://github.com/Pawel-Galkowski/joinjobs-backend#readme"
 }

@@ -1,9 +1,9 @@
-var ProfileController = require('./ProfileController');
-var UserController = require('./UserController');
-var PostController = require('./PostController');
+const ProfileController = require('./ProfileController')
+const UserController = require('./UserController')
+const PostController = require('./PostController')
 
 module.exports = {
   profile: ProfileController,
   post: PostController,
-  user: UserController,
-};
+  user: UserController
+}

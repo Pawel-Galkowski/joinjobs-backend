@@ -1,44 +1,44 @@
-﻿const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+﻿const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
-    required: true,
+    required: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   confirmed: {
     type: Boolean,
-    default: false,
+    default: false
   },
   confirmedKey: {
-    type: String,
+    type: String
   },
   recoveryToken: {
-    type: String,
+    type: String
   },
   avatar: {
-    type: String,
+    type: String
   },
   date: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   role: {
     type: String,
-    default: 'user',
-  },
-});
+    default: 'user'
+  }
+})
 
 UserSchema.methods.summary = function () {
-  var summary = {
+  const summary = {
     name: this.name,
     email: this.email,
     avatar: this.avatar,
@@ -47,10 +47,10 @@ UserSchema.methods.summary = function () {
     confirmedKey: this.confirmedKey,
     recoveryToken: this.recoveryToken,
     id: this._id.toString(),
-    role: this.role,
-  };
+    role: this.role
+  }
 
-  return summary;
-};
+  return summary
+}
 
-module.exports = User = mongoose.model('users', UserSchema);
+module.exports = mongoose.model('users', UserSchema)

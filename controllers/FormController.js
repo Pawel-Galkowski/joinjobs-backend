@@ -1,24 +1,24 @@
-var Form = require('../models/Forms');
-var Profile = require('../models/Profile');
-var Promise = require('bluebird');
-var validation = require('../validation');
+const Form = require('../models/Forms')
+const Profile = require('../models/Profile')
+const Promise = require('bluebird')
+const validation = require('../validation')
 
-function checkErrors(user, params, callback) {
-  const { errors, isValid } = validation.form.validateFormInput(params);
+function checkErrors (user, params, callback) {
+  const { errors, isValid } = validation.form.validateFormInput(params)
   if (!isValid) {
-    callback(errors, null);
-    return;
+    callback(errors, null)
+    return
   }
 
   const newCompany = {
     company: params.company,
     nip: params.nip,
     admins: {
-      id: user.id,
-    },
-  };
+      id: user.id
+    }
+  }
 
-  callback(null, newCompany);
+  callback(null, newCompany)
 }
 
 module.exports = {
@@ -26,134 +26,133 @@ module.exports = {
     return new Promise((resolve, reject) => {
       checkErrors(user, params, (err, data) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         Form.create(data, (err, form) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
-          resolve(form);
-        });
-      });
-    });
+          resolve(form)
+        })
+      })
+    })
   },
   get: (params) => {
     return new Promise((resolve, reject) => {
       Form.find(params)
         .sort({
-          timestamp: -1,
+          timestamp: -1
         })
         .exec((err, forms) => {
           if (err) {
-            reject({
-              not_found: 'No forms found',
-            });
-            return;
+            reject(({
+              not_found: 'No forms found'
+            }))
           }
-          resolve(forms);
-        });
-    });
+          resolve(forms)
+        })
+    })
   },
   getById: (params) => {
     return new Promise((resolve, reject) => {
       Form.findById(params, (err, form) => {
         if (err) {
           reject({
-            not_found: 'No form found with that ID',
-          });
-          return;
+            not_found: 'No form found with that ID'
+          })
+          return
         }
-        resolve(form);
-      });
-    });
+        resolve(form)
+      })
+    })
   },
   delete: (user, params) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.findOne(
         {
-          user: user.id,
+          user: user.id
         },
         (err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
           if (!profile) {
-            errors.profile = 'There is no profile for this user';
-            reject(errors);
-            return;
+            errors.profile = 'There is no profile for this user'
+            reject(errors)
+            return
           }
           Form.findById(params, (err, form) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
             if (form.company.admins.id.toString() !== user.id) {
-              errors.notAuthorized = 'User not authorized';
-              reject(errors);
-              return;
+              errors.notAuthorized = 'User not authorized'
+              reject(errors)
+              return
             }
             form.remove((err, form) => {
               if (err) {
-                reject(err);
-                return;
+                reject(err)
+                return
               }
-              resolve(form);
-            });
-          });
+              resolve(form)
+            })
+          })
         }
-      );
-    });
+      )
+    })
   },
   addAnswer: (user, id, params) => {
     return new Promise((resolve, reject) => {
       checkErrors(user, params, (err, data) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         Form.findById(id, (err, form) => {
           if (err) {
-            reject({ not_found: 'No form found' });
-            return;
+            reject({ not_found: 'No form found' })
+            return
           }
-          form.comments.unshift(data);
+          form.comments.unshift(data)
           form.save((err, form) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(form);
-          });
-        });
-      });
-    });
+            resolve(form)
+          })
+        })
+      })
+    })
   },
   addQuestions: (user, id, params) => {
     return new Promise((resolve, reject) => {
       checkErrors(user, params, (err, data) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         Form.findById(id, (err, form) => {
           if (err) {
-            reject({ not_found: 'No form found' });
-            return;
+            reject({ not_found: 'No form found' })
+            return
           }
-          form.comments.unshift(data);
+          form.comments.unshift(data)
           form.save((err, form) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(form);
-          });
-        });
-      });
-    });
-  },
-};
+            resolve(form)
+          })
+        })
+      })
+    })
+  }
+}

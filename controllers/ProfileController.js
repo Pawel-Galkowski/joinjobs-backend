@@ -1,15 +1,15 @@
-var Profile = require('../models/Profile');
-var User = require('../models/User');
-var Promise = require('bluebird');
-var validation = require('../validation');
+const Profile = require('../models/Profile')
+const User = require('../models/User')
+const Promise = require('bluebird')
+const validation = require('../validation')
 
-function checkExpEdu(params, action, callback) {
-  if (action == 'experience') {
-    const { errors, isValid } = validation.experience.validateExperienceInput(params);
+function checkExpEdu (params, action, callback) {
+  if (action === 'experience') {
+    const { errors, isValid } = validation.experience.validateExperienceInput(params)
 
     if (!isValid) {
-      callback(errors, null);
-      return;
+      callback(errors, null)
+      return
     }
 
     const newExp = {
@@ -19,17 +19,17 @@ function checkExpEdu(params, action, callback) {
       from: params.from,
       to: params.to,
       current: params.current,
-      description: params.description,
-    };
-    callback(null, newExp);
-    return;
+      description: params.description
+    }
+    callback(null, newExp)
+    return
   }
-  if (action == 'education') {
-    const { errors, isValid } = validation.education.validateEducationInput(params);
+  if (action === 'education') {
+    const { errors, isValid } = validation.education.validateEducationInput(params)
 
     if (!isValid) {
-      callback(errors, null);
-      return;
+      callback(errors, null)
+      return
     }
 
     const newEdu = {
@@ -39,224 +39,223 @@ function checkExpEdu(params, action, callback) {
       from: params.from,
       to: params.to,
       current: params.current,
-      description: params.description,
-    };
-    callback(null, newEdu);
-    return;
+      description: params.description
+    }
+    callback(null, newEdu)
   }
 }
 
 module.exports = {
   find: (params) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.find(params)
         .populate('user', ['name', 'avatar'])
         .exec((err, profiles) => {
           if (err) {
-            reject({ profiles: 'There are no profiles' });
-            return;
+            reject({ profiles: 'There are no profiles' })
+            return
           }
-          if (profiles.length == 0) {
-            errors.noprofile = 'There are no profiles';
-            reject(errors);
-            return;
+          if (profiles.length === 0) {
+            errors.noprofile = 'There are no profiles'
+            reject(errors)
+            return
           }
-          resolve(profiles);
-        });
-    });
+          resolve(profiles)
+        })
+    })
   },
   findOne: (params) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.findOne(params)
         .populate('user', ['name', 'avatar'])
         .exec((err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
           if (!profile) {
-            errors.noprofile = 'There is no profile for this user';
-            reject(errors);
-            return;
+            errors.noprofile = 'There is no profile for this user'
+            reject(errors)
+            return
           }
-          resolve(profile);
-        });
-    });
+          resolve(profile)
+        })
+    })
   },
   findByUserId: (params) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.findOne(params, (err, profile) => {
         if (err) {
-          reject({ profile: 'There is no profile for this user' });
-          return;
+          reject({ profile: 'There is no profile for this user' })
+          return
         }
         if (!profile) {
-          errors.noprofile = 'There is no profile for this user';
-          reject(errors);
-          return;
+          errors.noprofile = 'There is no profile for this user'
+          reject(errors)
+          return
         }
-        resolve(profile);
-      });
-    });
+        resolve(profile)
+      })
+    })
   },
   save: (user, params) => {
     return new Promise((resolve, reject) => {
-      const { errors, isValid } = validation.profile.validateProfileInput(params);
+      const { errors, isValid } = validation.profile.validateProfileInput(params)
 
       if (!isValid) {
-        reject(errors);
-        return;
+        reject(errors)
+        return
       }
 
-      params['user'] = user.id;
+      params.user = user.id
 
-      if (typeof params['skills'] !== 'undefined') {
-        var skillsArray = [];
-        var skills = params['skills'].split(',');
+      if (typeof params.skills !== 'undefined') {
+        const skillsArray = []
+        const skills = params.skills.split(',')
         skills.forEach((skill) => {
-          skillsArray.push(skill.trim());
-        });
-        params['skills'] = skillsArray;
+          skillsArray.push(skill.trim())
+        })
+        params.skills = skillsArray
       }
 
-      var social = {};
-      var socialMedia = ['youtube', 'twitter', 'facebook', 'linkedin', 'instagram'];
+      const social = {}
+      const socialMedia = ['youtube', 'twitter', 'facebook', 'linkedin', 'instagram']
       socialMedia.forEach((media) => {
         if (params[media]) {
-          social[media] = params[media];
+          social[media] = params[media]
         }
-      });
-      params['social'] = social;
+      })
+      params.social = social
 
       Profile.findOne({ user: user.id }, (err, profile) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
 
         // update profile
         if (profile) {
           Profile.findByIdAndUpdate(profile._id, params, { new: true }, (err, profile) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(profile);
-          });
-          return;
+            resolve(profile)
+          })
+          return
         }
 
         // check if handle exists
-        Profile.findOne({ handle: params['handle'] }, (err, profile) => {
+        Profile.findOne({ handle: params.handle }, (err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
           if (profile) {
-            errors.handle = 'That handle already exists';
-            reject(errors);
-            return;
+            errors.handle = 'That handle already exists'
+            reject(errors)
+            return
           }
 
           // create profile
           Profile.create(params, (err, profile) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(profile);
-          });
-        });
-      });
-    });
+            resolve(profile)
+          })
+        })
+      })
+    })
   },
   add: (user, params, action) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       checkExpEdu(params, action, (err, data) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         Profile.findOne({ user: user.id }, (err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
           if (!profile) {
-            errors.profile = 'No profile found for this user';
-            reject(errors);
-            return;
+            errors.profile = 'No profile found for this user'
+            reject(errors)
+            return
           }
 
-          profile[action].unshift(data);
+          profile[action].unshift(data)
           profile.save((err, profile) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(profile);
-          });
-        });
-      });
-    });
+            resolve(profile)
+          })
+        })
+      })
+    })
   },
   remove: (user, id, action) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.findOne({ user: user.id }, (err, profile) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         if (!profile) {
-          errors.profile = 'No profile found for this user';
-          reject(errors);
-          return;
+          errors.profile = 'No profile found for this user'
+          reject(errors)
+          return
         }
-        const removeIndex = profile[action].map((item) => item.id).indexOf(id);
-        profile[action].splice(removeIndex, 1);
+        const removeIndex = profile[action].map((item) => item.id).indexOf(id)
+        profile[action].splice(removeIndex, 1)
         profile.save((err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
-          resolve(profile);
-        });
-      });
-    });
+          resolve(profile)
+        })
+      })
+    })
   },
   delete: (params) => {
     return new Promise((resolve, reject) => {
-      const errors = {};
+      const errors = {}
       Profile.findOne(params, (err, profile) => {
         if (err) {
-          reject(err);
-          return;
+          reject(err)
+          return
         }
         if (!profile) {
-          errors.profile = 'No profile found for this user';
-          reject(errors);
-          return;
+          errors.profile = 'No profile found for this user'
+          reject(errors)
+          return
         }
 
         Profile.findByIdAndRemove(profile._id, (err, profile) => {
           if (err) {
-            reject(err);
-            return;
+            reject(err)
+            return
           }
           User.findByIdAndRemove(profile.user, (err, user) => {
             if (err) {
-              reject(err);
-              return;
+              reject(err)
+              return
             }
-            resolve(user);
-          });
-        });
-      });
-    });
-  },
-};
+            resolve(user)
+          })
+        })
+      })
+    })
+  }
+}
