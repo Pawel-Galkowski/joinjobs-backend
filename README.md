@@ -2,7 +2,7 @@
 Recruitment platform created with MERN stack.
 
 ## Live view
-You can check the application in this [link](https://joinjobs.herokuapp.com/)<br/>
+Online version not available at this moment - CODE IMPROVEMENTS IN PROGRESS (due to my main stack - front-end first).
 Application is hosted on free platform Heroku so it need some time to run it.
 
 ## Technology Stack
