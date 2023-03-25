@@ -30,14 +30,14 @@ mongoose
 
 // Add Access Control Allow Origin headers
 app.use((req, res, next) => {
-  const corsWhitelist = [
-    'https://joinjobs-frontend.herokuapp.com/',
-    'http://localhost:3000/'
-  ]
-  if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
-    res.header('Access-Control-Allow-Origin', req.headers.origin)
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  }
+  // const corsWhitelist = [
+  //   'https://joinjobs-frontend.herokuapp.com/'
+  // ]
+  // if (corsWhitelist.includes(req.headers.origin)) {
+  // res.header('Access-Control-Allow-Origin', req.headers.origin)
+  res.header('Access-Control-Allow-Origin', '*' /* added to resolve problem with localhosts improvements */)
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // }
   next()
 })
 
