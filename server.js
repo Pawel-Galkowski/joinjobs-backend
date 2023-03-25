@@ -13,6 +13,7 @@ const forms = require('./routes/api/forms')
 const fs = require('fs')
 require('./middleware/mailer')
 require('dotenv').config()
+require('./config/passport')(passport)
 
 const app = express()
 
@@ -27,10 +28,20 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.log(err))
 
+// Add Access Control Allow Origin headers
+app.use((req, res, next) => {
+  const corsWhitelist = [
+    'https://joinjobs-frontend.herokuapp.com/',
+    'http://localhost:3000/'
+  ]
+  if (corsWhitelist.indexOf(req.headers.origin) !== -1) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin)
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  }
+  next()
+})
+
 app.use(passport.initialize())
-
-require('./config/passport')(passport)
-
 app.use('/api/users', users)
 app.use('/api/auth', auth)
 app.use('/api/profile', profile)
