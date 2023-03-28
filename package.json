@@ -4,9 +4,9 @@
   "version": "1.1.1",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install"
+    "start": "nodemon server",
+    "server": "node server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm start"
   },
   "description": "JoinJobs backend creacted by ITGalkowski",
   "author": "Pawel Galkowski",
