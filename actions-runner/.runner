@@ -1,0 +1,9 @@
+﻿{
+  "agentId": 2,
+  "agentName": "DESKTOP-PECET",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelines.actions.githubusercontent.com/6LJvXV30CwyJbkBMSArkZtUYYaHgBv40x6epxITY8btqX0dXzs",
+  "gitHubUrl": "https://github.com/Pawel-Galkowski/joinjobs-backend",
+  "workFolder": "_work"
+}
